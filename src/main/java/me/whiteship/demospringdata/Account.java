@@ -35,6 +35,21 @@ public class Account {
     @Transient // 컬럼으로 맵핑하고 싶지 않은 멤버
     private String no;
 
+    /**
+     * @Embedded
+     *  - 값 타입을 사용 하는 곳에 표시 (생략가능)
+     *  - 코드의 재사용성
+     *  - 높은 응집도
+     */
+    @Embedded
+    @AttributeOverrides(
+            @AttributeOverride(name = "street", column = @Column(name = "home_street"))
+    )
+    private Address homeaddress;
+
+    @Embedded
+    private Address officeAddress;
+
     public Long getId() {
         return id;
     }
