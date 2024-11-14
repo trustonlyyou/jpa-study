@@ -3,6 +3,8 @@ package me.whiteship.demospringdata;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity // Account 라는 Table 에 Mapping 되는 어노테이션
 @Table // 기본 값이 @Entity 이름과 동일한 테이블과 매핑된다.
@@ -47,8 +49,9 @@ public class Account {
     )
     private Address homeaddress;
 
-    @Embedded
-    private Address officeAddress;
+    @OneToMany(mappedBy = "owner")
+    private Set<Study> studies = new HashSet<>();
+
 
     public Long getId() {
         return id;
@@ -73,4 +76,47 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public String getNo() {
+        return no;
+    }
+
+    public void setNo(String no) {
+        this.no = no;
+    }
+
+    public Address getHomeaddress() {
+        return homeaddress;
+    }
+
+    public void setHomeaddress(Address homeaddress) {
+        this.homeaddress = homeaddress;
+    }
+
+    public Set<Study> getStudies() {
+        return studies;
+    }
+
+    public void setStudies(Set<Study> studies) {
+        this.studies = studies;
+    }
+
+    public void addStudy(Study study) {
+        this.getStudies().add(study);
+        study.setOwner(this);
+    }
+
+    public void removeStudy(Study study) {
+        this.getStudies().remove(study);
+        study.setOwner(null);
+    }
+
 }
